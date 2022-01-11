@@ -6,7 +6,7 @@ using EnrollmentServices.Models;
 
 namespace EnrollmentServices.Dtos
 {
-    public class DtoGetEnrollments
+    public class DtoGetStudentEnrolls
     {
         public string Code { get; set; }
         public string CourseName { get; set; }

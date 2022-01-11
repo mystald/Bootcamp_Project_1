@@ -9,6 +9,6 @@ namespace EnrollmentServices.Data
 {
     public interface IStudent : ICrud<Student>
     {
-        Task<IEnumerable<DtoGetEnrollments>> GetEnrollments(int StudentId);
+        Task<IEnumerable<DtoGetStudentEnrolls>> GetEnrollments(int StudentId);
     }
 }
