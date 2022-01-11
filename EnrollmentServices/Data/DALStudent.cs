@@ -18,15 +18,28 @@ namespace EnrollmentServices.Data
             _db = db;
         }
 
-        public Task<Student> Delete(int id)
+        public async Task<Student> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var oldStudent = await GetById(id);
+
+                _db.Remove(oldStudent);
+
+                await _db.SaveChangesAsync();
+
+                return oldStudent;
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Student>> GetAll()
         {
             var results = await _db.Students.ToListAsync();
-            if (!results.Any()) throw new DataNotFoundException();
+            if (!results.Any()) throw new DataNotFoundException("Student not found");
 
             return results;
         }
@@ -37,12 +50,12 @@ namespace EnrollmentServices.Data
                 student => student.Id == id
             ).SingleOrDefaultAsync();
 
-            if (result == null) throw new DataNotFoundException();
+            if (result == null) throw new DataNotFoundException("Student not found");
 
             return result;
         }
 
-        public async Task<IEnumerable<DtoGetEnrollments>> GetEnrollments(int StudentId)
+        public async Task<IEnumerable<DtoGetStudentEnrolls>> GetEnrollments(int StudentId)
         {
             var results = await (
                 from enroll in _db.Enrollments
@@ -53,11 +66,11 @@ namespace EnrollmentServices.Data
 
             if (!results.Any()) throw new DataNotFoundException();
 
-            List<DtoGetEnrollments> enrollments = new List<DtoGetEnrollments>();
+            List<DtoGetStudentEnrolls> enrollments = new List<DtoGetStudentEnrolls>();
 
             foreach (var result in results)
             {
-                enrollments.Add(new DtoGetEnrollments
+                enrollments.Add(new DtoGetStudentEnrolls
                 {
                     Code = result.courses.Code,
                     CourseName = result.courses.Name,

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EnrollmentServices.Data;
 using EnrollmentServices.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,12 @@ namespace EnrollmentServices
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LocalDB"))
             );
+
+            services.AddScoped<IStudent, DALStudent>();
+
+            services.AddScoped<ICourse, DALCourse>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

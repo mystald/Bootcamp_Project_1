@@ -38,7 +38,7 @@ namespace EnrollmentServices.Data
         {
             var results = await _db.Courses.ToListAsync();
 
-            if (!results.Any()) throw new DataNotFoundException();
+            if (!results.Any()) throw new DataNotFoundException("Course not found");
 
             return results;
         }
@@ -49,7 +49,7 @@ namespace EnrollmentServices.Data
                 course => course.Id == courseId
             ).SingleOrDefaultAsync();
 
-            if (result == null) throw new DataNotFoundException();
+            if (result == null) throw new DataNotFoundException("Course not found");
 
             return result;
         }
