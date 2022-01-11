@@ -99,7 +99,12 @@ namespace EnrollmentServices.Controllers
             {
                 var result = await _student.Insert(_mapper.Map<Student>(obj));
 
-                return Ok(_mapper.Map<DtoStudentGet>(result));
+                return Ok(
+                    new DtoReturnDataSuccess
+                    {
+                        data = _mapper.Map<DtoStudentGet>(result)
+                    }
+                );
             }
             catch (DataNotFoundException ex)
             {
@@ -128,7 +133,12 @@ namespace EnrollmentServices.Controllers
             {
                 var result = await _student.Update(id, _mapper.Map<Student>(obj));
 
-                return Ok(_mapper.Map<DtoStudentGet>(result));
+                return Ok(
+                    new DtoReturnDataSuccess
+                    {
+                        data = _mapper.Map<DtoStudentGet>(result)
+                    }
+                );
             }
             catch (DataNotFoundException ex)
             {
@@ -157,7 +167,12 @@ namespace EnrollmentServices.Controllers
             {
                 var result = await _student.Delete(id);
 
-                return Ok(_mapper.Map<DtoStudentGet>(result));
+                return Ok(
+                    new DtoReturnDataSuccess
+                    {
+                        data = _mapper.Map<DtoStudentGet>(result)
+                    }
+                );
             }
             catch (DataNotFoundException ex)
             {
