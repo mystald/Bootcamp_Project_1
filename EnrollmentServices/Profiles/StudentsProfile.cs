@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EnrollmentServices.Dtos;
+using EnrollmentServices.Models;
 
 namespace EnrollmentServices.Profiles
 {
@@ -11,11 +12,11 @@ namespace EnrollmentServices.Profiles
     {
         public StudentsProfile()
         {
-            CreateMap<Models.Student, DtoStudentGetAll>()
+            CreateMap<Student, DtoStudentGet>()
                 .ForMember(dst => dst.FullName,
                 opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
 
-            CreateMap<DtoStudentInsert, Models.Student>();
+            CreateMap<DtoStudentInsert, Student>();
         }
     }
 }
