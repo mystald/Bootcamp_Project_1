@@ -37,6 +37,8 @@ namespace EnrollmentServices
 
             services.AddScoped<ICourse, DALCourse>();
 
+            services.AddScoped<IEnrollment, DALEnrollment>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
