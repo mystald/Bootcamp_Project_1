@@ -25,7 +25,7 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DtoStudentGetAll>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DtoStudentGet>>> GetAll()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace EnrollmentServices.Controllers
                 return Ok(
                     new DtoReturnDataSuccess
                     {
-                        data = _mapper.Map<IEnumerable<DtoStudentGetAll>>(results)
+                        data = _mapper.Map<IEnumerable<DtoStudentGet>>(results)
                     }
                 );
             }
@@ -59,7 +59,7 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DtoStudentGetAll>> GetById(int id)
+        public async Task<ActionResult<DtoStudentGet>> GetById(int id)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace EnrollmentServices.Controllers
                 return Ok(
                     new DtoReturnDataSuccess
                     {
-                        data = _mapper.Map<DtoStudentGetAll>(result)
+                        data = _mapper.Map<DtoStudentGet>(result)
                     }
                 );
             }
@@ -93,13 +93,13 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<DtoStudentGetAll>> Add([FromBody] DtoStudentInsert obj)
+        public async Task<ActionResult<DtoStudentGet>> Add([FromBody] DtoStudentInsert obj)
         {
             try
             {
                 var result = await _student.Insert(_mapper.Map<Student>(obj));
 
-                return Ok(_mapper.Map<DtoStudentGetAll>(result));
+                return Ok(_mapper.Map<DtoStudentGet>(result));
             }
             catch (DataNotFoundException ex)
             {
@@ -122,13 +122,13 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<DtoStudentGetAll>> Edit(int id, [FromBody] DtoStudentInsert obj)
+        public async Task<ActionResult<DtoStudentGet>> Edit(int id, [FromBody] DtoStudentInsert obj)
         {
             try
             {
                 var result = await _student.Update(id, _mapper.Map<Student>(obj));
 
-                return Ok(_mapper.Map<DtoStudentGetAll>(result));
+                return Ok(_mapper.Map<DtoStudentGet>(result));
             }
             catch (DataNotFoundException ex)
             {
@@ -151,13 +151,13 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DtoStudentGetAll>> Delete(int id)
+        public async Task<ActionResult<DtoStudentGet>> Delete(int id)
         {
             try
             {
                 var result = await _student.Delete(id);
 
-                return Ok(_mapper.Map<DtoStudentGetAll>(result));
+                return Ok(_mapper.Map<DtoStudentGet>(result));
             }
             catch (DataNotFoundException ex)
             {
