@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EnrollmentServices.Dtos
 {
-    public class DtoStudentGetAll
+    public class DtoStudentGetAll // TODO : Rename to DtoStudentGet
     {
         public int Id { get; set; }
         public string FullName { get; set; }
