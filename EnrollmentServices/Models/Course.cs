@@ -15,7 +15,7 @@ namespace EnrollmentServices.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public int Credit { get; set; }
+        public int? Credit { get; set; }
 
         // Relation
         public IEnumerable<Enrollment> Enrollments { get; set; }
