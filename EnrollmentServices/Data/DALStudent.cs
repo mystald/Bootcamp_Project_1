@@ -55,7 +55,7 @@ namespace EnrollmentServices.Data
             return result;
         }
 
-        public async Task<IEnumerable<DtoGetStudentEnrolls>> GetEnrollments(int StudentId)
+        public async Task<IEnumerable<DtoStudentEnrollsGet>> GetEnrollments(int StudentId)
         {
             var results = await (
                 from enroll in _db.Enrollments
@@ -66,11 +66,11 @@ namespace EnrollmentServices.Data
 
             if (!results.Any()) throw new DataNotFoundException();
 
-            List<DtoGetStudentEnrolls> enrollments = new List<DtoGetStudentEnrolls>();
+            List<DtoStudentEnrollsGet> enrollments = new List<DtoStudentEnrollsGet>();
 
             foreach (var result in results)
             {
-                enrollments.Add(new DtoGetStudentEnrolls
+                enrollments.Add(new DtoStudentEnrollsGet
                 {
                     Code = result.courses.Code,
                     CourseName = result.courses.Name,

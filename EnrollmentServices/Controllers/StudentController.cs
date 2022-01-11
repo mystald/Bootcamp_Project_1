@@ -25,51 +25,81 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DtoStudent>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DtoStudentGetAll>>> GetAll()
         {
             try
             {
                 var results = await _student.GetAll();
 
-                return Ok(_mapper.Map<IEnumerable<DtoStudent>>(results));
+                return Ok(
+                    new DtoReturnDataSuccess
+                    {
+                        data = _mapper.Map<IEnumerable<DtoStudentGetAll>>(results)
+                    }
+                );
             }
             catch (DataNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DtoStudent>> GetById(int id)
+        public async Task<ActionResult<DtoStudentGetAll>> GetById(int id)
         {
             try
             {
                 var result = await _student.GetById(id);
 
-                return Ok(_mapper.Map<DtoStudent>(result));
+                return Ok(
+                    new DtoReturnDataSuccess
+                    {
+                        data = _mapper.Map<DtoStudentGetAll>(result)
+                    }
+                );
             }
             catch (DataNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<DtoStudent>> Add([FromBody] DtoStudentInsert obj)
+        public async Task<ActionResult<DtoStudentGetAll>> Add([FromBody] DtoStudentInsert obj)
         {
             try
             {
                 var result = await _student.Insert(_mapper.Map<Student>(obj));
 
-                return Ok(_mapper.Map<DtoStudent>(result));
+                return Ok(_mapper.Map<DtoStudentGetAll>(result));
             }
             catch (DataNotFoundException ex)
             {
@@ -82,13 +112,13 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<DtoStudent>> Edit(int id, [FromBody] DtoStudentInsert obj)
+        public async Task<ActionResult<DtoStudentGetAll>> Edit(int id, [FromBody] DtoStudentInsert obj)
         {
             try
             {
                 var result = await _student.Update(id, _mapper.Map<Student>(obj));
 
-                return Ok(_mapper.Map<DtoStudent>(result));
+                return Ok(_mapper.Map<DtoStudentGetAll>(result));
             }
             catch (DataNotFoundException ex)
             {
@@ -101,13 +131,13 @@ namespace EnrollmentServices.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<DtoStudent>> Delete(int id)
+        public async Task<ActionResult<DtoStudentGetAll>> Delete(int id)
         {
             try
             {
                 var result = await _student.Delete(id);
 
-                return Ok(_mapper.Map<DtoStudent>(result));
+                return Ok(_mapper.Map<DtoStudentGetAll>(result));
             }
             catch (DataNotFoundException ex)
             {

@@ -11,7 +11,7 @@ namespace EnrollmentServices.Profiles
     {
         public StudentsProfile()
         {
-            CreateMap<Models.Student, DtoStudent>()
+            CreateMap<Models.Student, DtoStudentGetAll>()
                 .ForMember(dst => dst.FullName,
                 opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
 
