@@ -103,11 +103,21 @@ namespace EnrollmentServices.Controllers
             }
             catch (DataNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
         }
 
@@ -122,11 +132,21 @@ namespace EnrollmentServices.Controllers
             }
             catch (DataNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
         }
 
@@ -141,11 +161,21 @@ namespace EnrollmentServices.Controllers
             }
             catch (DataNotFoundException ex)
             {
-                return NotFound(ex.Message);
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
             }
         }
     }
