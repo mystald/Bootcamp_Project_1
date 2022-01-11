@@ -99,6 +99,8 @@ namespace EnrollmentServices.Controllers
             {
                 var result = await _enroll.Insert(_mapper.Map<Enrollment>(obj));
 
+                // Create HttpRequest to PaymentServices
+
                 return Ok(_mapper.Map<DtoEnrollmentGet>(result));
             }
             catch (DataNotFoundException ex)
