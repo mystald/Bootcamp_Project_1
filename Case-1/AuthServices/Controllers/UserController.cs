@@ -8,6 +8,7 @@ using AuthServices.Exceptions;
 using AuthServices.Helpers;
 using AuthServices.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServices.Controllers
@@ -62,36 +63,6 @@ namespace AuthServices.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<ActionResult<DtoReturnDataSuccess<IEnumerable<DtoUserGet>>>> GetAll()
-        {
-            try
-            {
-                var result = await _user.GetAll();
-
-                return Ok(new DtoReturnDataSuccess<IEnumerable<DtoUserGet>>
-                {
-                    data = _mapper.Map<IEnumerable<DtoUserGet>>(result)
-                });
-            }
-            catch (DataNotFoundException ex)
-            {
-                return NotFound(
-                    new DtoReturnDataError
-                    {
-                        message = ex.Message
-                    }
-                );
-            }
-            catch (System.Exception ex)
-            {
-                return BadRequest(new DtoReturnDataError
-                {
-                    message = ex.Message,
-                });
-            }
-        }
-
         [HttpPost("register")]
         public async Task<ActionResult<DtoUserRegisterOutput>> Register([FromBody] DtoUserAdminRegisterInput input)
         {
@@ -125,6 +96,7 @@ namespace AuthServices.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("{userId}")]
         public async Task<ActionResult<DtoReturnDataSuccess<DtoUserGet>>> GetByUserId(int userId)
         {
@@ -155,6 +127,40 @@ namespace AuthServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<ActionResult<DtoReturnDataSuccess<IEnumerable<DtoUserGet>>>> GetAll()
+        {
+            try
+            {
+                var result = await _user.GetAll();
+
+                return Ok(new DtoReturnDataSuccess<IEnumerable<DtoUserGet>>
+                {
+                    data = _mapper.Map<IEnumerable<DtoUserGet>>(result)
+                });
+            }
+            catch (DataNotFoundException ex)
+            {
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new DtoReturnDataError
+                {
+                    message = ex.Message,
+                });
+            }
+        }
+
+
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("{userId}/role")]
         public async Task<ActionResult<DtoReturnDataSuccess<IEnumerable<DtoRoleGet>>>> GetRoles(int userId)
         {
@@ -185,6 +191,7 @@ namespace AuthServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("{userId}/role/assign")]
         public async Task<ActionResult<DtoReturnDataSuccess<DtoUserRoleAssignOutput>>> AssignRole(int userId, [FromBody] DtoUserRoleAssignInput input)
         {
@@ -228,6 +235,7 @@ namespace AuthServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("{userId}/role/unassign")]
         public async Task<ActionResult<DtoReturnDataSuccess<DtoUserRoleAssignOutput>>> UnassignRole(int userId, [FromBody] DtoUserRoleAssignInput input)
         {
