@@ -92,6 +92,40 @@ namespace EnrollmentServices.Controllers
             }
         }
 
+        [HttpGet("{id}/enrollments")]
+        public async Task<ActionResult<DtoStudentEnrollsGet>> GetEnrollmentsByStudentId(int id)
+        {
+            try
+            {
+                var result = await _student.GetEnrollments(id);
+
+                return Ok(
+                    new DtoReturnDataSuccess
+                    {
+                        data = result
+                    }
+                );
+            }
+            catch (DataNotFoundException ex)
+            {
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<DtoStudentGet>> Add([FromBody] DtoStudentInsert obj)
         {
