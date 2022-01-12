@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AuthServices.Data;
 using AuthServices.Helpers;
 using AuthServices.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,13 +46,13 @@ namespace AuthServices
             //     options.Password.RequireDigit = true;
             // }).AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var appSettingsSection = Configuration.GetSection("AppSettings");
+            /*var appSettingsSection = Configuration.GetSection("AppSettings");
 
             services.Configure<AppSettings>(appSettingsSection);
 
-            var appSettings = appSettingsSection.Get<AppSettings>();
+            var appSettings = appSettingsSection.Get<AppSettings>();*/
 
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var key = Encoding.ASCII.GetBytes(Configuration["AppSettings:Secret"]);
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -70,6 +71,7 @@ namespace AuthServices
 
             services.AddAuthorization();
 
+            services.AddScoped<IUser, DALUser>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
