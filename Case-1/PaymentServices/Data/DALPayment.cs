@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PaymentServices.Exceptions;
@@ -11,11 +12,14 @@ namespace PaymentServices.Data
     public class DALPayment : IPayment
     {
         private ApplicationDbContext _db;
+        private HttpClient _httpClient;
 
-        public DALPayment(ApplicationDbContext db)
+        public DALPayment(ApplicationDbContext db, HttpClient httpClient)
         {
             _db = db;
+            _httpClient = httpClient;
         }
+
         public Task<Payment> Delete(int id)
         {
             throw new NotImplementedException();

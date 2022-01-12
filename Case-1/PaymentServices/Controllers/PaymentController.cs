@@ -38,28 +38,80 @@ namespace PaymentServices.Controllers
             {
                 var result = await _payment.Insert(payment);
 
-                var url = _config["Services:Enrollment"];
-
-                var course = new DtoCourse();
-
-                using (var message = new HttpRequestMessage(HttpMethod.Get, $"{url}course/{result.CourseId}"))
-                {
-                    message.Headers.Add("Content-Type", "application/json");
-                    // TODO add auth token to header
-
-                    var response = await _httpClient.SendAsync(message);
-
-                    var responseData = await response.Content.ReadAsStringAsync();
-
-                    var responseValue = JsonSerializer.Deserialize<DtoCourse>(responseData);
-                }
-
                 return Ok(
                     new DtoReturnDataSuccess
                     {
                         data = result
                     }
                 );
+            }
+            catch (DataNotFoundException ex)
+            {
+                return NotFound(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(
+                    new DtoReturnDataError
+                    {
+                        message = ex.Message
+                    }
+                );
+            }
+        }
+
+        [HttpGet("{StudentId}")]
+        public async Task<ActionResult<DtoPaymentGet>> GetPaymentFromStudentId(int StudentId)
+        {
+            try
+            {
+                var paymentData = await _payment.GetByStudentId(StudentId);
+
+                List<DtoCourse> courseList = new List<DtoCourse>();
+
+                var totalCredit = 0;
+
+                var url = _config["Services:Enrollment"];
+                using (var message = new HttpRequestMessage(HttpMethod.Get, $"{url}course/"))
+                {
+                    // TODO add auth token to header
+
+                    var response = await _httpClient.SendAsync(message);
+                    var responseData = await response.Content.ReadAsByteArrayAsync();
+                    var responseDeserialized = JsonSerializer.Deserialize<DtoReturnDataIEnumerableCourse>(responseData);
+                    var responseValue = responseDeserialized.data;
+
+                    foreach (var tes in responseValue)
+                    {
+                        Console.WriteLine($"{tes.id}, {tes.code}");
+                    }
+
+                    foreach (var payment in paymentData)
+                    {
+                        var course = responseValue.FirstOrDefault(x => x.id == payment.CourseId);
+                        if (course == null) throw new DataNotFoundException(payment.CourseId.ToString());
+                        courseList.Add(course);
+
+                        totalCredit += course.credit;
+                    }
+
+                    return Ok(
+                        new DtoReturnDataSuccess
+                        {
+                            data = new DtoPaymentGet
+                            {
+                                StudentId = StudentId,
+                                Courses = courseList,
+                                TotalCredit = totalCredit,
+                            }
+                        }
+                    );
+                }
             }
             catch (DataNotFoundException ex)
             {

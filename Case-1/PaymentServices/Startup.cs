@@ -33,7 +33,7 @@ namespace PaymentServices
                 options.UseSqlServer(Configuration.GetConnectionString("LocalDB"))
             );
 
-            services.AddScoped<IPayment, DALPayment>();
+            services.AddHttpClient<IPayment, DALPayment>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
