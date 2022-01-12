@@ -6,6 +6,7 @@ using AuthServices.Data;
 using AuthServices.Dtos;
 using AuthServices.Exceptions;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthServices.Controllers
@@ -23,6 +24,7 @@ namespace AuthServices.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<DtoReturnDataSuccess<IEnumerable<DtoRoleGet>>>> GetAll()
         {

@@ -69,8 +69,6 @@ namespace AuthServices
                     };
                 });
 
-            services.AddAuthorization();
-
             services.AddScoped<IUser, DALUser>();
 
             services.AddScoped<IRole, DALRole>();
@@ -83,6 +81,25 @@ namespace AuthServices
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AuthServices", Version = "v1" });
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                };
+                c.AddSecurityDefinition("Bearer", securitySchema);
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    {securitySchema,new[]{"Bearer"} }
+                };
+                c.AddSecurityRequirement(securityRequirement);
             });
         }
 
@@ -99,6 +116,8 @@ namespace AuthServices
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
