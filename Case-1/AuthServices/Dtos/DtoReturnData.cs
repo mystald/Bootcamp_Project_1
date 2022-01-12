@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace AuthServices.Dtos
 {
-    public class DtoReturnDataSuccess
+    public class DtoReturnDataSuccess<T>
     {
         public string status { get; set; } = Status.success.ToString();
-        public Object data { get; set; }
+        public T data { get; set; }
     }
 
     public class DtoReturnDataError

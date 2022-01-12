@@ -8,6 +8,6 @@ namespace AuthServices.Data
 {
     public interface IUserRole : ICrud<UserRole>
     {
-
+        Task<UserRole> GetByUserIdRoleId(int userId, int roleId);
     }
 }

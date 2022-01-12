@@ -73,6 +73,12 @@ namespace AuthServices
 
             services.AddScoped<IUser, DALUser>();
 
+            services.AddScoped<IRole, DALRole>();
+
+            services.AddScoped<IUserRole, DALUserRole>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
