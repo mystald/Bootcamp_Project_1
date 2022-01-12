@@ -6,6 +6,8 @@ using AutoMapper;
 using EnrollmentServices.Data;
 using EnrollmentServices.Dtos;
 using EnrollmentServices.Exceptions;
+using EnrollmentServices.External;
+using EnrollmentServices.External.Dtos;
 using EnrollmentServices.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +19,16 @@ namespace EnrollmentServices.Controllers
     {
         private IEnrollment _enroll;
         private IMapper _mapper;
+        private IPaymentService _payment;
 
-        public EnrollmentController(IEnrollment enroll, IMapper mapper)
+        public EnrollmentController(
+            IEnrollment enroll,
+            IMapper mapper,
+            IPaymentService payment)
         {
             _enroll = enroll;
             _mapper = mapper;
+            _payment = payment;
         }
 
         [HttpGet]
@@ -99,7 +106,14 @@ namespace EnrollmentServices.Controllers
             {
                 var result = await _enroll.Insert(_mapper.Map<Enrollment>(obj));
 
-                // Create HttpRequest to PaymentServices
+                await _payment.AddPayment(
+                    new DtoPayment
+                    {
+                        StudentId = result.StudentId,
+                        CourseId = result.CourseId,
+                        EnrollmentId = result.Id,
+                    }
+                );
 
                 return Ok(_mapper.Map<DtoEnrollmentGet>(result));
             }

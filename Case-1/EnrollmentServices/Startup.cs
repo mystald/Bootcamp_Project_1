@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnrollmentServices.Data;
+using EnrollmentServices.External;
 using EnrollmentServices.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +39,8 @@ namespace EnrollmentServices
             services.AddScoped<ICourse, DALCourse>();
 
             services.AddScoped<IEnrollment, DALEnrollment>();
+
+            services.AddHttpClient<IPaymentService, PaymentService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
