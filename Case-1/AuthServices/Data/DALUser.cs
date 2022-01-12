@@ -42,10 +42,10 @@ namespace AuthServices.Data
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, userFound.Username));
 
-            if (userFound.StudentId != null)
-            {
-                claims.Add(new Claim("Id", userFound.StudentId.ToString()));
-            }
+            // if (userFound.StudentId != null)
+            // {
+            //     claims.Add(new Claim("Id", userFound.StudentId.ToString()));
+            // }
 
             foreach (var role in roles)
             {
