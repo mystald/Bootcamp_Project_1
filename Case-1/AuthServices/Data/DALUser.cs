@@ -37,7 +37,10 @@ namespace AuthServices.Data
 
             if (userFound == null) throw new System.Exception("Invalid Credentials");
 
-            var roles = await GetRoles(userFound.Id);
+            IEnumerable<Role> roles = new List<Role>();
+
+            try { roles = await GetRoles(userFound.Id); }
+            catch (DataNotFoundException) { }
 
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, userFound.Username));
@@ -97,6 +100,17 @@ namespace AuthServices.Data
             return result;
         }
 
+        public async Task<User> GetByUsername(string username)
+        {
+            var result = await _db.Users.Where(
+                user => user.Username == username
+            ).SingleOrDefaultAsync();
+
+            if (result == null) throw new DataNotFoundException("Username not found");
+
+            return result;
+        }
+
         public async Task<IEnumerable<Role>> GetRoles(int userId)
         {
             var roles = await (
@@ -118,6 +132,17 @@ namespace AuthServices.Data
         {
             try
             {
+                try
+                {
+                    var userExist = await GetByUsername(obj.Username);
+
+                    throw new System.Exception("Username already taken");
+                }
+                catch (DataNotFoundException)
+                {
+                    // do nothing
+                }
+
                 var result = await _db.Users.AddAsync(obj);
 
                 await _db.SaveChangesAsync();
