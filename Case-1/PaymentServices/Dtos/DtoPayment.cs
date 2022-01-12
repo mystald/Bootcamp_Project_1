@@ -7,10 +7,10 @@ namespace PaymentServices.Dtos
 {
     public class DtoPaymentGet
     {
-        public int Id { get; set; }
-        public DtoStudent Student { get; set; }
-        public DtoCourse Course { get; set; }
-        public DtoEnrollment Enrollment { get; set; }
+        public int StudentId { get; set; }
+        //public DtoStudent Student { get; set; }
+        public IEnumerable<DtoCourse> Courses { get; set; }
+        public int TotalCredit { get; set; }
     }
 
     public class DtoStudent
@@ -22,16 +22,9 @@ namespace PaymentServices.Dtos
 
     public class DtoCourse
     {
-        public int CourseId { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public int Credit { get; set; }
-    }
-
-    public class DtoEnrollment
-    {
-        public int EnrollmentId { get; set; }
-        public DateTime EnrollDate { get; set; }
-        public char Grade { get; set; }
+        public int id { get; set; }
+        public string code { get; set; }
+        public string name { get; set; }
+        public int credit { get; set; }
     }
 }
