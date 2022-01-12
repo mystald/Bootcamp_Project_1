@@ -18,6 +18,13 @@ namespace PaymentServices.Dtos
         public string message { get; set; }
     }
 
+    public class DtoReturnDataIEnumerableCourse
+    {
+        public string status { get; set; } = Status.error.ToString();
+        public IEnumerable<DtoCourse> data { get; set; }
+        public string message { get; set; }
+    }
+
     public enum Status
     {
         success,
