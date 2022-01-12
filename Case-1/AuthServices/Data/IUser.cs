@@ -11,5 +11,6 @@ namespace AuthServices.Data
     {
         Task<string> Authenticate(string username, string password);
         Task<IEnumerable<Role>> GetRoles(int userId);
+        Task<User> GetByUsername(string username);
     }
 }
