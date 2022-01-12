@@ -29,6 +29,6 @@ namespace EnrollmentServices.Dtos
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public DateTime EnrollDate { get; set; }
-        public Grade Grade { get; set; }
+        public string Grade { get; set; }
     }
 }
