@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AuthServices.Exceptions;
 using AuthServices.Helpers;
 using AuthServices.Models;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace AuthServices.Data
             _db = db;
             _config = configuration;
         }
+
         public async Task<string> Authenticate(string username, string password)
         {
             var userFound = await (
@@ -75,14 +77,24 @@ namespace AuthServices.Data
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            throw new NotImplementedException();
+            var results = await _db.Users.ToListAsync();
+
+            if (!results.Any()) throw new DataNotFoundException("Users not found");
+
+            return results;
         }
 
-        public Task<User> GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            throw new NotImplementedException();
+            var result = await _db.Users.Where(
+                user => user.Id == id
+            ).SingleOrDefaultAsync();
+
+            if (result == null) throw new DataNotFoundException("Course not found");
+
+            return result;
         }
 
         public async Task<IEnumerable<Role>> GetRoles(int userId)
@@ -95,14 +107,27 @@ namespace AuthServices.Data
                 select role
             ).ToListAsync();
 
+            if (!roles.Any()) throw new DataNotFoundException("Roles not found");
+
             //Console.WriteLine(roles[0]);
 
             return roles;
         }
 
-        public Task<User> Insert(User obj)
+        public async Task<User> Insert(User obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _db.Users.AddAsync(obj);
+
+                await _db.SaveChangesAsync();
+
+                return result.Entity;
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public Task<User> Update(int id, User obj)
