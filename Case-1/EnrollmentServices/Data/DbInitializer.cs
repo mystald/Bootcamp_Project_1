@@ -10,7 +10,7 @@ namespace EnrollmentServices.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureCreated();
+            if (!context.Database.CanConnect()) throw new Exception("Database not migrated yet");
 
             if (!context.Courses.Any())
             {
@@ -67,6 +67,7 @@ namespace EnrollmentServices.Data
 
             if (!context.Enrollments.Any())
             {
+                // There are multiple SaveChanges to ensure the id generated is the same as the order the data is added
                 context.Enrollments.Add(new Enrollment
                 {
                     StudentId = 1,
@@ -74,6 +75,8 @@ namespace EnrollmentServices.Data
                     EnrollDate = System.DateTime.Today,
                 });
 
+                context.SaveChanges();
+
                 context.Enrollments.Add(new Enrollment
                 {
                     StudentId = 1,
@@ -81,24 +84,12 @@ namespace EnrollmentServices.Data
                     EnrollDate = System.DateTime.Today,
                 });
 
+                context.SaveChanges();
+
                 context.Enrollments.Add(new Enrollment
                 {
                     StudentId = 2,
                     CourseId = 2,
-                    EnrollDate = System.DateTime.Today,
-                });
-
-                context.Enrollments.Add(new Enrollment
-                {
-                    StudentId = 3,
-                    CourseId = 2,
-                    EnrollDate = System.DateTime.Today,
-                });
-
-                context.Enrollments.Add(new Enrollment
-                {
-                    StudentId = 3,
-                    CourseId = 3,
                     EnrollDate = System.DateTime.Today,
                 });
 

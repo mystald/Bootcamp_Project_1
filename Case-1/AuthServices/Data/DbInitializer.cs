@@ -11,7 +11,7 @@ namespace AuthServices.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
-            context.Database.EnsureCreated();
+            if (!context.Database.CanConnect()) throw new Exception("Database not migrated yet");
 
             var role = new Role();
 
