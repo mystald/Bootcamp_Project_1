@@ -75,6 +75,8 @@ namespace AuthServices
 
             services.AddScoped<IUserRole, DALUserRole>();
 
+            services.AddScoped<IServices, DALServices>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddControllers();
