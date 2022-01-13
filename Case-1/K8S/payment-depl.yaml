@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: enrollment-depl
+  name: payment-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: enrollmentservices
+      app: paymentservices
   template:
     metadata:
       labels:
-        app: enrollmentservices
+        app: paymentservices
     spec:
       containers:
-        - name: enrollmentservices
-          image: mystald/enrollmentservices:latest
+        - name: paymentservices
+          image: mystald/paymentservices:latest
           resources:
             limits:
               memory: "128Mi"
@@ -24,13 +24,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: case1-enrollment-clusterip-srv
+  name: payment-clusterip-srv
 spec:
   type: ClusterIP
   selector:
-    app: enrollmentservices
+    app: paymentservices
   ports:
-    - name: enrollmentservices
+    - name: paymentservices
       protocol: TCP
       port: 80
       targetPort: 80

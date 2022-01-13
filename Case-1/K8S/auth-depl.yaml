@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-depl
+  name: auth-depl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: paymentservices
+      app: authservices
   template:
     metadata:
       labels:
-        app: paymentservices
+        app: authservices
     spec:
       containers:
-        - name: paymentservices
-          image: mystald/paymentservices:latest
+        - name: authservices
+          image: mystald/authservices:latest
           resources:
             limits:
               memory: "128Mi"
@@ -24,13 +24,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: case1-payment-clusterip-srv
+  name: auth-clusterip-srv
 spec:
   type: ClusterIP
   selector:
-    app: paymentservices
+    app: authservices
   ports:
-    - name: paymentservices
+    - name: authservices
       protocol: TCP
       port: 80
       targetPort: 80

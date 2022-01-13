@@ -8,27 +8,33 @@ metadata:
 
 spec:
   rules:
-    - host: project.com
+    - host: enrollment.project.com
       http:
         paths:
           - pathType: Prefix
-            path: /enrollment
+            path: /
             backend:
               service:
-                name: case1-enrollment-clusterip-srv
+                name: enrollment-clusterip-srv
                 port:
                   number: 80
+    - host: payment.project.com
+      http:
+        paths:
           - pathType: Prefix
-            path: /payment
+            path: /
             backend:
               service:
-                name: case1-payment-clusterip-srv
+                name: payment-clusterip-srv
                 port:
                   number: 80
+    - host: auth.project.com
+      http:
+        paths:
           - pathType: Prefix
-            path: /auth
+            path: /
             backend:
               service:
-                name: case1-auth-clusterip-srv
+                name: auth-clusterip-srv
                 port:
                   number: 80
