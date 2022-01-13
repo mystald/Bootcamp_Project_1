@@ -29,6 +29,5 @@ namespace EnrollmentServices.Dtos
         public string CourseName { get; set; }
         public int? Credit { get; set; }
         public DateTime EnrollDate { get; set; }
-        public string Grade { get; set; }
     }
 }

@@ -66,7 +66,6 @@ namespace EnrollmentServices.Data
                 oldEnroll.StudentId = obj.StudentId;
                 oldEnroll.CourseId = obj.CourseId;
                 oldEnroll.EnrollDate = obj.EnrollDate;
-                oldEnroll.Grade = obj.Grade;
 
                 await _db.SaveChangesAsync();
 

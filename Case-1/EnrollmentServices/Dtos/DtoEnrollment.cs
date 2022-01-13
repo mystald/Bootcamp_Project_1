@@ -12,7 +12,6 @@ namespace EnrollmentServices.Dtos
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public DateTime EnrollDate { get; set; }
-        public string Grade { get; set; }
     }
 
     public class DtoEnrollmentGetDetail
@@ -21,7 +20,6 @@ namespace EnrollmentServices.Dtos
         public Student Student { get; set; }
         public Course Course { get; set; }
         public DateTime EnrollDate { get; set; }
-        public string Grade { get; set; }
     }
 
     public class DtoEnrollmentInsert
@@ -29,6 +27,5 @@ namespace EnrollmentServices.Dtos
         public int StudentId { get; set; }
         public int CourseId { get; set; }
         public DateTime EnrollDate { get; set; }
-        public string Grade { get; set; }
     }
 }

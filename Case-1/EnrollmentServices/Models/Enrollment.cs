@@ -16,15 +16,9 @@ namespace EnrollmentServices.Models
         public int CourseId { get; set; }
         [Required]
         public DateTime EnrollDate { get; set; }
-        public Grade Grade { get; set; }
 
         // Relation
         public Course Course { get; set; }
         public Student Student { get; set; }
-    }
-
-    public enum Grade
-    {
-        A, B, C, D, E
     }
 }

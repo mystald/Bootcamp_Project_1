@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrollment-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enrollmentservices
+  template:
+    metadata:
+      labels:
+        app: enrollmentservices
+    spec:
+      containers:
+        - name: enrollmentservices
+          image: mystald/enrollmentservices:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrollment-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enrollmentservices
+  template:
+    metadata:
+      labels:
+        app: enrollmentservices
+    spec:
+      containers:
+        - name: enrollmentservices
+          image: mystald/enrollmentservices:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: case1-enrollment-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: enrollmentservices
+  ports:
+    - name: enrollmentservices
+      protocol: TCP
+      port: 80
+      targetPort: 80

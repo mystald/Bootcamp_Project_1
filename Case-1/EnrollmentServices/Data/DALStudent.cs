@@ -76,7 +76,6 @@ namespace EnrollmentServices.Data
                     CourseName = result.courses.Name,
                     Credit = result.courses.Credit,
                     EnrollDate = result.enrolls.EnrollDate,
-                    Grade = result.enrolls.Grade.ToString(),
                 });
             }
 

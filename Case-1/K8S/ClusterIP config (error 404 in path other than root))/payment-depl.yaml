@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentservices
+  template:
+    metadata:
+      labels:
+        app: paymentservices
+    spec:
+      containers:
+        - name: paymentservices
+          image: mystald/paymentservices:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: case1-payment-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: paymentservices
+  ports:
+    - name: paymentservices
+      protocol: TCP
+      port: 80
+      targetPort: 80

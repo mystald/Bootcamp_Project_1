@@ -72,7 +72,6 @@ namespace EnrollmentServices.Data
                     StudentId = 1,
                     CourseId = 1,
                     EnrollDate = System.DateTime.Today,
-                    Grade = Grade.A
                 });
 
                 context.Enrollments.Add(new Enrollment
@@ -80,7 +79,6 @@ namespace EnrollmentServices.Data
                     StudentId = 1,
                     CourseId = 3,
                     EnrollDate = System.DateTime.Today,
-                    Grade = Grade.C
                 });
 
                 context.Enrollments.Add(new Enrollment
@@ -88,7 +86,6 @@ namespace EnrollmentServices.Data
                     StudentId = 2,
                     CourseId = 2,
                     EnrollDate = System.DateTime.Today,
-                    Grade = Grade.B
                 });
 
                 context.Enrollments.Add(new Enrollment
@@ -96,7 +93,6 @@ namespace EnrollmentServices.Data
                     StudentId = 3,
                     CourseId = 2,
                     EnrollDate = System.DateTime.Today,
-                    Grade = Grade.A
                 });
 
                 context.Enrollments.Add(new Enrollment
@@ -104,7 +100,6 @@ namespace EnrollmentServices.Data
                     StudentId = 3,
                     CourseId = 3,
                     EnrollDate = System.DateTime.Today,
-                    Grade = Grade.A
                 });
 
                 context.SaveChanges();
