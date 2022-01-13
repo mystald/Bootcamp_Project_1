@@ -33,6 +33,9 @@ namespace EnrollmentServices.External
 
             var url = _config["ExternalServices:Payment"];
 
+            _httpClient.DefaultRequestHeaders.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _config["AppSettings:ServiceToken"]);
+
             var response = await _httpClient.PostAsync(
                 $"{url}Payment",
                 httpContent

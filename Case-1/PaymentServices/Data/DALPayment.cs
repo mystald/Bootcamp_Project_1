@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using PaymentServices.Dtos;
 using PaymentServices.Exceptions;
 using PaymentServices.Models;
 
@@ -12,12 +15,14 @@ namespace PaymentServices.Data
     public class DALPayment : IPayment
     {
         private ApplicationDbContext _db;
-        private HttpClient _httpClient;
+        private IConfiguration _config;
 
-        public DALPayment(ApplicationDbContext db, HttpClient httpClient)
+        public DALPayment(
+            ApplicationDbContext db,
+            IConfiguration config)
         {
             _db = db;
-            _httpClient = httpClient;
+            _config = config;
         }
 
         public Task<Payment> Delete(int id)

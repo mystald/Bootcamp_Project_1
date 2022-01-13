@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using PaymentServices.Data;
 using PaymentServices.Dtos;
 using PaymentServices.Exceptions;
+using PaymentServices.External;
 using PaymentServices.Models;
 
 namespace PaymentServices.Controllers
@@ -20,17 +17,12 @@ namespace PaymentServices.Controllers
     public class PaymentController : ControllerBase
     {
         private IPayment _payment;
-        private HttpClient _httpClient;
-        private IConfiguration _config;
+        private IEnrollmentService _enroll;
 
-        public PaymentController(
-            IPayment payment,
-            HttpClient httpClient,
-            IConfiguration config)
+        public PaymentController(IPayment payment, IEnrollmentService enroll)
         {
             _payment = payment;
-            _httpClient = httpClient;
-            _config = config;
+            _enroll = enroll;
         }
 
         [HttpPost]
@@ -74,46 +66,15 @@ namespace PaymentServices.Controllers
             {
                 var paymentData = await _payment.GetByStudentId(StudentId);
 
-                List<DtoCourse> courseList = new List<DtoCourse>();
+                var result = await _enroll.GetDetail(paymentData, StudentId);
 
-                var totalCredit = 0;
-
-                var url = _config["Services:Enrollment"];
-                using (var message = new HttpRequestMessage(HttpMethod.Get, $"{url}course/"))
-                {
-                    // TODO add auth token to header
-
-                    var response = await _httpClient.SendAsync(message);
-                    var responseData = await response.Content.ReadAsByteArrayAsync();
-                    var responseDeserialized = JsonSerializer.Deserialize<DtoReturnDataIEnumerableCourse>(responseData);
-                    var responseValue = responseDeserialized.data;
-
-                    foreach (var tes in responseValue)
+                return Ok(
+                    new DtoReturnDataSuccess
                     {
-                        Console.WriteLine($"{tes.id}, {tes.code}");
+                        data = result
                     }
+                );
 
-                    foreach (var payment in paymentData)
-                    {
-                        var course = responseValue.FirstOrDefault(x => x.id == payment.CourseId);
-                        if (course == null) throw new DataNotFoundException(payment.CourseId.ToString());
-                        courseList.Add(course);
-
-                        totalCredit += course.credit;
-                    }
-
-                    return Ok(
-                        new DtoReturnDataSuccess
-                        {
-                            data = new DtoPaymentGet
-                            {
-                                StudentId = StudentId,
-                                Courses = courseList,
-                                TotalCredit = totalCredit,
-                            }
-                        }
-                    );
-                }
             }
             catch (DataNotFoundException ex)
             {

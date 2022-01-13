@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PaymentServices.Data;
+using PaymentServices.External;
 using PaymentServices.Models;
 
 namespace PaymentServices
@@ -53,7 +54,8 @@ namespace PaymentServices
                     };
                 });
 
-            services.AddHttpClient<IPayment, DALPayment>();
+            services.AddScoped<IPayment, DALPayment>();
+            services.AddHttpClient<IEnrollmentService, DALEnrollmentService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

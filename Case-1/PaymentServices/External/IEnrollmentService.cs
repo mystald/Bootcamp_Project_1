@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using PaymentServices.Dtos;
 using PaymentServices.Models;
 
-namespace PaymentServices.Data
+namespace PaymentServices.External
 {
-    public interface IPayment : ICrud<Payment>
+    public interface IEnrollmentService
     {
-        Task<IEnumerable<Payment>> GetByStudentId(int StudentId);
+        Task<DtoPaymentGet> GetDetail(IEnumerable<Payment> payments, int StudentId);
     }
 }
