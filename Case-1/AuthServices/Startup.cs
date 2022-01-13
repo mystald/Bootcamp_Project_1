@@ -34,7 +34,7 @@ namespace AuthServices
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(
-                opt => opt.UseSqlServer(Configuration.GetConnectionString("Local"))
+                opt => opt.UseSqlServer(Configuration.GetConnectionString("LocalDB"))
             );
 
             // services.AddIdentityCore<IdentityUser>(options =>

@@ -7,10 +7,12 @@ using EnrollmentServices.Data;
 using EnrollmentServices.Dtos;
 using EnrollmentServices.Exceptions;
 using EnrollmentServices.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentServices.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class CourseController : ControllerBase
@@ -92,6 +94,7 @@ namespace EnrollmentServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<DtoCourseGet>> Add([FromBody] DtoCourseInsert obj)
         {
@@ -126,6 +129,7 @@ namespace EnrollmentServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<DtoCourseGet>> Edit(int id, [FromBody] DtoCourseInsert obj)
         {
@@ -160,6 +164,7 @@ namespace EnrollmentServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<DtoCourseGet>> Delete(int id)
         {

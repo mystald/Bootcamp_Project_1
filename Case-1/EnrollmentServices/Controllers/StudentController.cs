@@ -8,9 +8,11 @@ using EnrollmentServices.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using EnrollmentServices.Exceptions;
 using EnrollmentServices.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EnrollmentServices.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class StudentController : ControllerBase

@@ -9,10 +9,12 @@ using EnrollmentServices.Exceptions;
 using EnrollmentServices.External;
 using EnrollmentServices.External.Dtos;
 using EnrollmentServices.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentServices.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/v1/[controller]")]
     public class EnrollmentController : ControllerBase
@@ -137,6 +139,7 @@ namespace EnrollmentServices.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<DtoEnrollmentGet>> Edit(int id, [FromBody] DtoEnrollmentInsert obj)
         {
