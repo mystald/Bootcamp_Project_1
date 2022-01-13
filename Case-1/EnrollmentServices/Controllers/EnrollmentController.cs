@@ -139,7 +139,6 @@ namespace EnrollmentServices.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult<DtoEnrollmentGet>> Edit(int id, [FromBody] DtoEnrollmentInsert obj)
         {
