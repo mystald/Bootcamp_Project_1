@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GraphQLAPI.Dtos;
 using GraphQLAPI.Exceptions;
+using GraphQLAPI.Helpers;
 using GraphQLAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,13 +29,7 @@ namespace GraphQLAPI.Data
         }
         public async Task<string> Authentication(string username, string password)
         {
-            var userFound = await (
-                from user in _db.Users
-                where user.Username == username && user.Password == password
-                select user
-            ).SingleOrDefaultAsync();
-
-            if (userFound == null) throw new System.Exception("Invalid Credentials");
+            var userFound = await ValidatePass(username, password);
 
             IEnumerable<Role> roles = new List<Role>();
 
@@ -163,7 +158,7 @@ namespace GraphQLAPI.Data
                 {
                     var userExist = await GetByUsername(obj.Username);
 
-                    throw new System.Exception("Username already taken");
+                    if (userExist != null) throw new System.Exception("Username already taken");
                 }
                 catch (DataNotFoundException)
                 {
@@ -188,8 +183,9 @@ namespace GraphQLAPI.Data
             {
                 var oldUser = await GetById(id);
 
-                oldUser.Username = obj.Username;
-                oldUser.Password = obj.Password;
+                if (obj.Username != null) oldUser.Username = obj.Username;
+                if (obj.Password != null) oldUser.Password = Hash.getHash(obj.Password);
+                if (obj.Bio != null) oldUser.Bio = obj.Bio;
                 oldUser.isLocked = obj.isLocked;
 
                 await _db.SaveChangesAsync();
@@ -200,6 +196,19 @@ namespace GraphQLAPI.Data
             {
                 throw;
             }
+        }
+
+        public async Task<User> ValidatePass(string username, string password)
+        {
+            var userFound = await (
+                from user in _db.Users
+                where user.Username == username && user.Password == Hash.getHash(password)
+                select user
+            ).SingleOrDefaultAsync();
+
+            if (userFound == null) throw new InvalidCredentialsException("Invalid Credentials");
+
+            return userFound;
         }
     }
 }

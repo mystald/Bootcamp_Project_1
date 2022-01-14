@@ -65,6 +65,7 @@ namespace GraphQLAPI
 
             services.AddGraphQLServer()
                 .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
                 ;
         }
 
