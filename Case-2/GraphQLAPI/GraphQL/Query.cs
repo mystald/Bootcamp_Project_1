@@ -31,9 +31,9 @@ namespace GraphQLAPI.GraphQL
             return _mapper.Map<DtoUserGet>(result);
         }
 
-        public IQueryable<DtoRoleGet> GetRoleByUserId([Service] IUser _user, int id)
+        public async Task<IQueryable<DtoRoleGet>> GetRoleByUserId([Service] IUser _user, int id)
         {
-            var result = _user.GetRoles(id);
+            var result = await _user.GetRoles(id);
             return _mapper.ProjectTo<DtoRoleGet>(result);
         }
 

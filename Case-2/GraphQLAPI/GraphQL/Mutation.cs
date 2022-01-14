@@ -83,5 +83,32 @@ namespace GraphQLAPI.GraphQL
                 data = _mapper.Map<DtoUserGet>(result)
             };
         }
+
+
+        public async Task<DtoReturnDataSuccess<UserRole>> AssignUserRole([Service] IUserRole _userRole, int userId, int roleId)
+        {
+            var result = await _userRole.Insert(
+                new UserRole
+                {
+                    UserId = userId,
+                    RoleId = roleId,
+                }
+            );
+
+            return new DtoReturnDataSuccess<UserRole>
+            {
+                data = result
+            };
+        }
+
+        public async Task<DtoReturnDataSuccess<UserRole>> UnassignUserRole([Service] IUserRole _userRole, int userId, int roleId)
+        {
+            var result = await _userRole.Delete(userId, roleId);
+
+            return new DtoReturnDataSuccess<UserRole>
+            {
+                data = result
+            };
+        }
     }
 }

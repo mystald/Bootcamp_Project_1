@@ -33,7 +33,7 @@ namespace GraphQLAPI.Data
 
             IEnumerable<Role> roles = new List<Role>();
 
-            try { roles = GetRoles(userFound.Id); }
+            try { roles = await GetRoles(userFound.Id); }
             catch (DataNotFoundException) { }
 
             List<Claim> claims = new List<Claim>();
@@ -110,8 +110,10 @@ namespace GraphQLAPI.Data
             return result;
         }
 
-        public IQueryable<Role> GetRoles(int id)
+        public async Task<IQueryable<Role>> GetRoles(int id)
         {
+            await GetById(id);
+
             var roles = (
                 from user in _db.Users
                 join userRole in _db.UserRoles on user.Id equals userRole.UserId

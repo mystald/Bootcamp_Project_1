@@ -11,7 +11,7 @@ namespace GraphQLAPI.Data
     {
         Task<string> Authentication(string username, string password);
         IQueryable<DtoTwittorGet> GetTwittors(int id);
-        IQueryable<Role> GetRoles(int id);
+        Task<IQueryable<Role>> GetRoles(int id);
         Task<User> GetByUsername(string username);
         Task<User> ValidatePass(string username, string password);
     }

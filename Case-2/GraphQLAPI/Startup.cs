@@ -61,6 +61,8 @@ namespace GraphQLAPI
 
             services.AddScoped<IUser, DALUser>();
 
+            services.AddScoped<IUserRole, DALUserRole>();
+
             services.AddErrorFilter<GraphQLErrorFilter>();
 
             services.AddGraphQLServer()
