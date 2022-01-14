@@ -7,7 +7,7 @@ namespace GraphQLAPI.Data
 {
     public interface ICrud<T>
     {
-        Task<IQueryable<T>> GetAll();
+        IQueryable<T> GetAll();
         Task<T> GetById(int id);
         Task<T> Insert(T obj);
         Task<T> Update(int id, T obj);

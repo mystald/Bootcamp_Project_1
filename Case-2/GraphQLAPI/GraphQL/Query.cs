@@ -19,9 +19,9 @@ namespace GraphQLAPI.GraphQL
         {
             _mapper = mapper;
         }
-        public async Task<IQueryable<DtoUserGet>> GetAllUser([Service] IUser _user)
+        public IQueryable<DtoUserGet> GetAllUser([Service] IUser _user)
         {
-            var results = await _user.GetAll();
+            var results = _user.GetAll();
             return _mapper.ProjectTo<DtoUserGet>(results);
         }
     }

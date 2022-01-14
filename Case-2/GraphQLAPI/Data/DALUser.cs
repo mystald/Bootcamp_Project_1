@@ -37,7 +37,7 @@ namespace GraphQLAPI.Data
 
             IEnumerable<Role> roles = new List<Role>();
 
-            try { roles = await GetRoles(userFound.Id); }
+            try { roles = GetRoles(userFound.Id); }
             catch (DataNotFoundException) { }
 
             List<Claim> claims = new List<Claim>();
@@ -84,7 +84,7 @@ namespace GraphQLAPI.Data
             }
         }
 
-        public async Task<IQueryable<User>> GetAll()
+        public IQueryable<User> GetAll()
         {
             var results = _db.Users.AsQueryable();
             if (!results.Any()) throw new DataNotFoundException("Users not found");
@@ -114,7 +114,7 @@ namespace GraphQLAPI.Data
             return result;
         }
 
-        public async Task<IQueryable<Role>> GetRoles(int id)
+        public IQueryable<Role> GetRoles(int id)
         {
             var roles = (
                 from user in _db.Users
@@ -129,7 +129,7 @@ namespace GraphQLAPI.Data
             return roles;
         }
 
-        public async Task<IQueryable<Twittor>> GetTwittors(int id)
+        public IQueryable<Twittor> GetTwittors(int id)
         {
             var twittors = (
                 from user in _db.Users
