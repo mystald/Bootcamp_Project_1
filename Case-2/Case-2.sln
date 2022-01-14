@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQLAPI", "GraphQLAPI\GraphQLAPI.csproj", "{A5E6EDEA-A3DB-455E-9A66-D8F0E733D937}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingApp", "LoggingApp\LoggingApp.csproj", "{79E4F523-E926-44CE-BE38-E87426021D34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NETApp", "NETApp\NETApp.csproj", "{95A1311F-B10D-4139-BFBD-48A9EFC17E39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{A5E6EDEA-A3DB-455E-9A66-D8F0E733D937}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5E6EDEA-A3DB-455E-9A66-D8F0E733D937}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5E6EDEA-A3DB-455E-9A66-D8F0E733D937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79E4F523-E926-44CE-BE38-E87426021D34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79E4F523-E926-44CE-BE38-E87426021D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79E4F523-E926-44CE-BE38-E87426021D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79E4F523-E926-44CE-BE38-E87426021D34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95A1311F-B10D-4139-BFBD-48A9EFC17E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95A1311F-B10D-4139-BFBD-48A9EFC17E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95A1311F-B10D-4139-BFBD-48A9EFC17E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95A1311F-B10D-4139-BFBD-48A9EFC17E39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
