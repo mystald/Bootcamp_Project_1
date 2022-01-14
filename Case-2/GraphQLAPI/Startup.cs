@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GraphQLAPI.Data;
 using GraphQLAPI.Exceptions;
 using GraphQLAPI.GraphQL;
+using GraphQLAPI.Kafka;
 using GraphQLAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -63,6 +64,8 @@ namespace GraphQLAPI
 
             services.AddScoped<IUserRole, DALUserRole>();
 
+            services.AddSingleton<Producer>();
+
             services.AddErrorFilter<GraphQLErrorFilter>();
 
             services.AddGraphQLServer()
@@ -91,6 +94,9 @@ namespace GraphQLAPI
             {
                 endpoints.MapGraphQL();
             });
+
+            var producer = new Producer();
+            producer.CreateTopics("user");
         }
     }
 }

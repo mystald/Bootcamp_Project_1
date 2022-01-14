@@ -18,6 +18,8 @@ namespace NETApp.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public string Token { get; set; }
+        public bool IsLocked { get; set; }
+        public string Bio { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Twittor> Twittors { get; set; }

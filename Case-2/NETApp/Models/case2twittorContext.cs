@@ -27,7 +27,6 @@ namespace NETApp.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // This is unsafe, I let it stay here for testing purposes
                 optionsBuilder.UseSqlServer("Server=localhost,1433; Initial Catalog=case2-twittor; User ID=twittor; Password=twittor");
             }
         }
@@ -67,6 +66,11 @@ namespace NETApp.Models
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.Property(e => e.IsLocked)
+                    .IsRequired()
+                    .HasColumnName("isLocked")
+                    .HasDefaultValueSql("(CONVERT([bit],(0)))");
+
                 entity.Property(e => e.Password).IsRequired();
 
                 entity.Property(e => e.Username).IsRequired();

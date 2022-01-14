@@ -4,10 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using GraphQLAPI.Dtos;
 using GraphQLAPI.Exceptions;
 using GraphQLAPI.Helpers;
+using GraphQLAPI.Kafka;
 using GraphQLAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,13 +21,16 @@ namespace GraphQLAPI.Data
     {
         private ApplicationDbContext _db;
         private IConfiguration _config;
+        private Producer _kafka;
 
         public DALUser(
             ApplicationDbContext db,
-            IConfiguration config)
+            IConfiguration config,
+            Producer kafka)
         {
             _db = db;
             _config = config;
+            _kafka = kafka;
         }
         public async Task<string> Authentication(string username, string password)
         {
@@ -68,9 +73,7 @@ namespace GraphQLAPI.Data
             {
                 var oldUser = await GetById(id);
 
-                _db.Remove(oldUser);
-
-                await _db.SaveChangesAsync();
+                _kafka.SendMessage("user", "delete", JsonSerializer.Serialize(oldUser));
 
                 return oldUser;
             }
@@ -167,11 +170,9 @@ namespace GraphQLAPI.Data
                     // do nothing
                 }
 
-                var result = await _db.Users.AddAsync(obj);
+                _kafka.SendMessage("user", "insert", JsonSerializer.Serialize(obj));
 
-                await _db.SaveChangesAsync();
-
-                return result.Entity;
+                return obj;
             }
             catch (System.Exception)
             {
@@ -190,7 +191,7 @@ namespace GraphQLAPI.Data
                 if (obj.Bio != null) oldUser.Bio = obj.Bio;
                 oldUser.isLocked = obj.isLocked;
 
-                await _db.SaveChangesAsync();
+                _kafka.SendMessage("user", "update", JsonSerializer.Serialize(oldUser));
 
                 return oldUser;
             }
