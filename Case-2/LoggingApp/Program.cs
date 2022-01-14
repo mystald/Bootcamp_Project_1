@@ -1,4 +1,5 @@
 ﻿using System;
+using LoggingApp.Kafka;
 
 namespace LoggingApp
 {
