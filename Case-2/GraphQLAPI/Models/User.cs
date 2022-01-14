@@ -15,6 +15,7 @@ namespace GraphQLAPI.Models
         [Required]
         public string Password { get; set; }
         public string Token { get; set; }
+        public bool isLocked { get; set; }
 
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<Twittor> Twittors { get; set; }
