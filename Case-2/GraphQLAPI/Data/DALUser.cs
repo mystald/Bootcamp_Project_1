@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using GraphQLAPI.Dtos;
 using GraphQLAPI.Exceptions;
 using GraphQLAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -129,13 +130,24 @@ namespace GraphQLAPI.Data
             return roles;
         }
 
-        public IQueryable<Twittor> GetTwittors(int id)
+        public IQueryable<DtoTwittorGet> GetTwittors(int id)
         {
             var twittors = (
                 from user in _db.Users
                 join twittor in _db.Twittors on user.Id equals twittor.UserId
                 where user.Id == id
-                select twittor
+                select new DtoTwittorGet
+                {
+                    Id = twittor.Id,
+                    UserId = user.Id,
+                    Content = twittor.Content,
+                    PostDate = twittor.PostDate,
+                    CommentCount = (
+                        from comment in _db.Comments
+                        where comment.TwittorId == twittor.Id
+                        select comment
+                    ).Count()
+                }
             ).AsQueryable();
 
             if (!twittors.Any()) throw new DataNotFoundException("Twittors not found");

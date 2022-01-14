@@ -24,5 +24,23 @@ namespace GraphQLAPI.GraphQL
             var results = _user.GetAll();
             return _mapper.ProjectTo<DtoUserGet>(results);
         }
+
+        public async Task<DtoUserGet> GetUserById([Service] IUser _user, int id)
+        {
+            var result = await _user.GetById(id);
+            return _mapper.Map<DtoUserGet>(result);
+        }
+
+        public IQueryable<DtoRoleGet> GetRoleByUserId([Service] IUser _user, int id)
+        {
+            var result = _user.GetRoles(id);
+            return _mapper.ProjectTo<DtoRoleGet>(result);
+        }
+
+        public IQueryable<DtoTwittorGet> GetTwittorsByUserId([Service] IUser _user, int id)
+        {
+            var result = _user.GetTwittors(id);
+            return result;
+        }
     }
 }
