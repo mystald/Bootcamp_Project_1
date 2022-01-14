@@ -9,8 +9,8 @@ namespace GraphQLAPI.Data
     public interface IUser : ICrud<User>
     {
         Task<string> Authentication(string username, string password);
-        Task<IEnumerable<Twittor>> GetTwittors(int id);
-        Task<IEnumerable<Role>> GetRoles(int id);
+        Task<IQueryable<Twittor>> GetTwittors(int id);
+        Task<IQueryable<Role>> GetRoles(int id);
         Task<User> GetByUsername(string username);
     }
 }

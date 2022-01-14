@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GraphQLAPI.Data;
+using GraphQLAPI.Exceptions;
 using GraphQLAPI.GraphQL;
 using GraphQLAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,6 +38,8 @@ namespace GraphQLAPI
                 options.UseSqlServer(Configuration.GetConnectionString("LocalDB"))
             );
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             var key = Encoding.ASCII.GetBytes(Configuration["AppSettings:Secret"]);
 
             services
@@ -54,7 +57,11 @@ namespace GraphQLAPI
                     };
                 });
 
+            services.AddAuthorization();
+
             services.AddScoped<IUser, DALUser>();
+
+            services.AddErrorFilter<GraphQLErrorFilter>();
 
             services.AddGraphQLServer()
                 .AddQueryType<Query>()
@@ -73,11 +80,12 @@ namespace GraphQLAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapGraphQL();
             });
         }

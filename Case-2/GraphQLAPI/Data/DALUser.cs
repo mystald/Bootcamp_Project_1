@@ -84,9 +84,9 @@ namespace GraphQLAPI.Data
             }
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IQueryable<User>> GetAll()
         {
-            var results = await _db.Users.ToListAsync();
+            var results = _db.Users.AsQueryable();
             if (!results.Any()) throw new DataNotFoundException("Users not found");
 
             return results;
@@ -114,29 +114,29 @@ namespace GraphQLAPI.Data
             return result;
         }
 
-        public async Task<IEnumerable<Role>> GetRoles(int id)
+        public async Task<IQueryable<Role>> GetRoles(int id)
         {
-            var roles = await (
+            var roles = (
                 from user in _db.Users
                 join userRole in _db.UserRoles on user.Id equals userRole.UserId
                 join role in _db.Roles on userRole.RoleId equals role.Id
                 where user.Id == id
                 select role
-            ).ToListAsync();
+            ).AsQueryable();
 
             if (!roles.Any()) throw new DataNotFoundException("Roles not found");
 
             return roles;
         }
 
-        public async Task<IEnumerable<Twittor>> GetTwittors(int id)
+        public async Task<IQueryable<Twittor>> GetTwittors(int id)
         {
-            var twittors = await (
+            var twittors = (
                 from user in _db.Users
                 join twittor in _db.Twittors on user.Id equals twittor.UserId
                 where user.Id == id
                 select twittor
-            ).ToListAsync();
+            ).AsQueryable();
 
             if (!twittors.Any()) throw new DataNotFoundException("Twittors not found");
 
