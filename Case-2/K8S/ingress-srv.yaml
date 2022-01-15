@@ -1,0 +1,50 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: case2-ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+spec:
+  rules:
+    - host: graphqlapi.case2.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: case2-graphqlapi-clusterip-srv
+                port:
+                  number: 80
+    - host: netapp.case2.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: case2-netapp-clusterip-srv
+                port:
+                  number: 80
+    - host: loggingapp.case2.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: case2-loggingapp-clusterip-srv
+                port:
+                  number: 80
+    - host: kafka.case2.com
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: case2-kafka
+                port:
+                  number: 80

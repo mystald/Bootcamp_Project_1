@@ -17,7 +17,7 @@ namespace NETApp.Kafka
         {
             config = new ConsumerConfig
             {
-                BootstrapServers = "localhost:9092",
+                BootstrapServers = "case2-kafka.default.svc.cluster.local:9092",
                 GroupId = "twittor",
                 AutoOffsetReset = AutoOffsetReset.Earliest,
             };

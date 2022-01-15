@@ -18,7 +18,7 @@ namespace NETApp
         {
             var services = new ServiceCollection();
             services.AddDbContext<case2twittorContext>(options =>
-                options.UseSqlServer("Server=localhost,1433; Initial Catalog=case2-twittor; User ID=twittor; Password=twittor"));
+                options.UseSqlServer("Server=mssql-clusterip-srv,1433; Initial Catalog=case2-twittor; User ID=twittor; Password=twittor"));
             var serviceProvider = services.BuildServiceProvider();
             _appDbContext = serviceProvider.GetService<case2twittorContext>();
 

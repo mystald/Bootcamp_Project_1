@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: case2-netapp-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netapp
+  template:
+    metadata:
+      labels:
+        app: netapp
+    spec:
+      containers:
+        - name: netapp
+          image: mystald/case2-netapp:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: case2-netapp-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: netapp
+  ports:
+    - name: netapp
+      protocol: TCP
+      port: 80
+      targetPort: 80

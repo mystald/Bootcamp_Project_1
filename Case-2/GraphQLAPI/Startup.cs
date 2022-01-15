@@ -105,7 +105,7 @@ namespace GraphQLAPI
                 endpoints.MapGraphQL();
             });
 
-            var producer = new Producer();
+            var producer = new Producer(Configuration);
             producer.CreateTopics("user");
             producer.CreateTopics("userrole");
             producer.CreateTopics("twittor");

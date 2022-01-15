@@ -22,15 +22,18 @@ namespace GraphQLAPI.Data
         private ApplicationDbContext _db;
         private IConfiguration _config;
         private Producer _kafka;
+        private IUserRole _userRole;
 
         public DALUser(
             ApplicationDbContext db,
             IConfiguration config,
-            Producer kafka)
+            Producer kafka,
+            IUserRole userRole)
         {
             _db = db;
             _config = config;
             _kafka = kafka;
+            _userRole = userRole;
         }
         public async Task<string> Authentication(string username, string password)
         {
@@ -213,6 +216,8 @@ namespace GraphQLAPI.Data
             ).SingleOrDefaultAsync();
 
             if (userFound == null) throw new InvalidCredentialsException("Invalid Credentials");
+
+            if (userFound.isLocked) throw new InvalidCredentialsException("Your account is locked");
 
             return userFound;
         }

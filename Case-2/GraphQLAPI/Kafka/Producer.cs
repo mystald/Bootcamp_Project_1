@@ -5,22 +5,25 @@ using System.Net;
 using System.Threading.Tasks;
 using Confluent.Kafka;
 using Confluent.Kafka.Admin;
+using Microsoft.Extensions.Configuration;
 
 namespace GraphQLAPI.Kafka
 {
     public class Producer
     {
+        private IConfiguration _appSetting;
         private ProducerConfig _config;
         private IProducer<string, string> _producer;
         private IAdminClient _adminClient;
 
-        public Producer()
+        public Producer(IConfiguration appSetting)
         {
+            _appSetting = appSetting;
+
             _config = new ProducerConfig
             {
-                BootstrapServers = "localhost:9092",
+                BootstrapServers = _appSetting["AppSettings:BootstrapServers"],
                 ClientId = Dns.GetHostName(),
-
             };
 
             _producer = new ProducerBuilder<string, string>(_config).Build();

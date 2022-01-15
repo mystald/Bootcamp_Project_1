@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: case2-loggingapp-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loggingapp
+  template:
+    metadata:
+      labels:
+        app: loggingapp
+    spec:
+      containers:
+        - name: loggingapp
+          image: mystald/case2-loggingapp:latest
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: case2-loggingapp-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: loggingapp
+  ports:
+    - name: loggingapp
+      protocol: TCP
+      port: 80
+      targetPort: 80
