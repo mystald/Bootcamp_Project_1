@@ -8,15 +8,16 @@ namespace LoggingApp.Kafka
 {
     public class Consumer
     {
+        private ConsumerConfig config;
         public IConsumer<string, string> consumer;
 
         public Consumer()
         {
-            var config = new ConsumerConfig
+            config = new ConsumerConfig
             {
                 BootstrapServers = "localhost:9092",
-                GroupId = "Project2",
-                AutoOffsetReset = AutoOffsetReset.Earliest
+                GroupId = "twittor",
+                AutoOffsetReset = AutoOffsetReset.Earliest,
             };
 
             consumer = new ConsumerBuilder<string, string>(config).Build();

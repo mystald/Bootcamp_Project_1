@@ -129,7 +129,7 @@ namespace GraphQLAPI.GraphQL
         }
 
         [Authorize(Roles = new string[] { "MEMBER" })]
-        public async Task<DtoReturnDataSuccess<DtoTwittorGet>> PostTwittor([Service] ITwittor _twittor, DtoTwitterInput input)
+        public async Task<DtoReturnDataSuccess<DtoTwittorGet>> PostTwittor([Service] ITwittor _twittor, DtoTwittorInput input)
         {
             var result = await _twittor.Insert(_mapper.Map<Twittor>(input));
 

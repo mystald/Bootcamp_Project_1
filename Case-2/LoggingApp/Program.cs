@@ -7,15 +7,28 @@ namespace LoggingApp
     {
         static void Main(string[] args)
         {
-            var consumer = new Consumer().consumer;
-
-            consumer.Subscribe("Logs");
-
-            while (true)
+            var consumerObj = new Consumer();
+            using (var consumer = consumerObj.consumer)
             {
-                var consumeResult = consumer.Consume();
+                consumer.Subscribe("loggings");
+                Console.WriteLine("Listening Logs...");
 
-                Console.WriteLine($"Event Detected: Key: {consumeResult.Message.Key} Value: {consumeResult.Message.Value}");
+                try
+                {
+                    while (true)
+                    {
+                        var consumeResult = consumer.Consume();
+
+                        Console.WriteLine($"Event Detected: Key: {consumeResult.Message.Key} Value: {consumeResult.Message.Value}");
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                finally
+                {
+                    consumer.Close();
+                }
             }
         }
     }

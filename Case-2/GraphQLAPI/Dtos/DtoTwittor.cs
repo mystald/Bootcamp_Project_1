@@ -14,7 +14,7 @@ namespace GraphQLAPI.Dtos
         public int CommentCount { get; set; }
     }
 
-    public class DtoTwitterInput
+    public class DtoTwittorInput
     {
         public int UserId { get; set; }
         public string Content { get; set; }

@@ -32,6 +32,7 @@ namespace GraphQLAPI.Data
                 var oldComment = await GetById(id);
 
                 _kafka.SendMessage("comment", "delete", JsonSerializer.Serialize(oldComment));
+                _kafka.SendMessage("loggings", "comment-delete", JsonSerializer.Serialize(oldComment));
 
                 return oldComment;
             }
@@ -69,6 +70,7 @@ namespace GraphQLAPI.Data
                 await _twittor.GetById(obj.TwittorId);
 
                 _kafka.SendMessage("comment", "insert", JsonSerializer.Serialize(obj));
+                _kafka.SendMessage("loggings", "comment-insert", JsonSerializer.Serialize(obj));
 
                 return obj;
             }
@@ -87,6 +89,7 @@ namespace GraphQLAPI.Data
                 if (obj.Content != null) oldComment.Content = obj.Content;
 
                 _kafka.SendMessage("comment", "update", JsonSerializer.Serialize(oldComment));
+                _kafka.SendMessage("loggings", "comment-update", JsonSerializer.Serialize(oldComment));
 
                 return oldComment;
             }

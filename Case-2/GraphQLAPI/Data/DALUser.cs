@@ -74,6 +74,7 @@ namespace GraphQLAPI.Data
                 var oldUser = await GetById(id);
 
                 _kafka.SendMessage("user", "delete", JsonSerializer.Serialize(oldUser));
+                _kafka.SendMessage("loggings", "user-delete", JsonSerializer.Serialize(oldUser));
 
                 return oldUser;
             }
@@ -171,6 +172,7 @@ namespace GraphQLAPI.Data
                 }
 
                 _kafka.SendMessage("user", "insert", JsonSerializer.Serialize(obj));
+                _kafka.SendMessage("loggings", "user-insert", JsonSerializer.Serialize(obj));
 
                 return obj;
             }
@@ -192,6 +194,7 @@ namespace GraphQLAPI.Data
                 oldUser.isLocked = obj.isLocked;
 
                 _kafka.SendMessage("user", "update", JsonSerializer.Serialize(oldUser));
+                _kafka.SendMessage("loggings", "user-update", JsonSerializer.Serialize(oldUser));
 
                 return oldUser;
             }

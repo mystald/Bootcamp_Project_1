@@ -52,13 +52,13 @@ namespace GraphQLAPI.Kafka
             return succeed;
         }
 
-        public void CreateTopics(string topic)
+        public async void CreateTopics(string topic)
         {
             using (var _adminClient = new AdminClientBuilder(_config).Build())
             {
                 try
                 {
-                    _adminClient.CreateTopicsAsync(
+                    await _adminClient.CreateTopicsAsync(
                         new List<TopicSpecification>
                         {
                             new TopicSpecification
@@ -78,7 +78,7 @@ namespace GraphQLAPI.Kafka
                     }
                     else
                     {
-                        Console.WriteLine("Topic already exists");
+                        Console.WriteLine($"Topic {topic} already exists");
                     }
                 }
             }

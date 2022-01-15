@@ -28,6 +28,7 @@ namespace GraphQLAPI.Data
                 var oldUserRole = await GetByUserAndRoleId(userId, roleId);
 
                 _kafka.SendMessage("userrole", "delete", JsonSerializer.Serialize(oldUserRole));
+                _kafka.SendMessage("loggings", "userrole-delete", JsonSerializer.Serialize(oldUserRole));
 
                 return oldUserRole;
             }
@@ -79,6 +80,7 @@ namespace GraphQLAPI.Data
                 }
 
                 _kafka.SendMessage("userrole", "insert", JsonSerializer.Serialize(obj));
+                _kafka.SendMessage("loggings", "userrole-insert", JsonSerializer.Serialize(obj));
 
                 return obj;
             }

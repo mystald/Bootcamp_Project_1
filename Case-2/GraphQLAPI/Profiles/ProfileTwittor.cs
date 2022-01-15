@@ -12,7 +12,7 @@ namespace GraphQLAPI.Profiles
     {
         public ProfileTwittor()
         {
-            CreateMap<DtoTwitterInput, Twittor>()
+            CreateMap<DtoTwittorInput, Twittor>()
                 .ForMember(twit => twit.PostDate,
                 opt => opt.MapFrom(input => DateTime.Now));
 

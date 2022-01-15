@@ -110,6 +110,7 @@ namespace GraphQLAPI
             producer.CreateTopics("userrole");
             producer.CreateTopics("twittor");
             producer.CreateTopics("comment");
+            producer.CreateTopics("loggings");
         }
     }
 }
