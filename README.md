@@ -20,3 +20,5 @@ There are three main app, the GraphqlAPI which will utilize GraphQL as the main 
 
 The Kafka itself is deployed to kubernetes with [Chart](https://github.com/bitnami/charts/tree/master/bitnami/kafka)<br>
 The Chart is installed using [Helm](https://helm.sh/) , which itself is installed using [Chocolatey](https://chocolatey.org/)
+
+Postman Documentation : https://documenter.getpostman.com/view/11621740/UVXjLGKr
