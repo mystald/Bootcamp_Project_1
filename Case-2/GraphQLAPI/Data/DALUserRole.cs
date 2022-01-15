@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using GraphQLAPI.Exceptions;
+using GraphQLAPI.Kafka;
 using GraphQLAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +13,12 @@ namespace GraphQLAPI.Data
     public class DALUserRole : IUserRole
     {
         private ApplicationDbContext _db;
+        private Producer _kafka;
 
-        public DALUserRole(ApplicationDbContext db)
+        public DALUserRole(ApplicationDbContext db, Producer kafka)
         {
             _db = db;
+            _kafka = kafka;
         }
 
         public async Task<UserRole> Delete(int userId, int roleId)
@@ -23,9 +27,7 @@ namespace GraphQLAPI.Data
             {
                 var oldUserRole = await GetByUserAndRoleId(userId, roleId);
 
-                _db.Remove(oldUserRole);
-
-                await _db.SaveChangesAsync();
+                _kafka.SendMessage("userrole", "delete", JsonSerializer.Serialize(oldUserRole));
 
                 return oldUserRole;
             }
@@ -76,11 +78,9 @@ namespace GraphQLAPI.Data
                     // Do Nothin'
                 }
 
-                var result = await _db.UserRoles.AddAsync(obj);
+                _kafka.SendMessage("userrole", "insert", JsonSerializer.Serialize(obj));
 
-                await _db.SaveChangesAsync();
-
-                return result.Entity;
+                return obj;
             }
             catch (System.Exception)
             {

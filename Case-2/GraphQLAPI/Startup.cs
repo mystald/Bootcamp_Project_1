@@ -97,6 +97,7 @@ namespace GraphQLAPI
 
             var producer = new Producer();
             producer.CreateTopics("user");
+            producer.CreateTopics("userrole");
         }
     }
 }

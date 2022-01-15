@@ -25,6 +25,7 @@ namespace NETApp
             /*=================================================*/
 
             var _user = new DALUser(_appDbContext);
+            var _userRole = new DALUserRole(_appDbContext);
 
             var consumerObj = new Consumer();
 
@@ -32,7 +33,7 @@ namespace NETApp
             {
                 Console.WriteLine("Connected");
 
-                var topics = new string[] { "user" };
+                var topics = new string[] { "user", "userrole" };
 
                 consumer.Subscribe(topics);
 
@@ -51,22 +52,38 @@ namespace NETApp
                         switch (entity)
                         {
                             case "user":
-                                var valueObj = JsonSerializer.Deserialize<User>(value);
+                                var userObj = JsonSerializer.Deserialize<User>(value);
                                 switch (operation)
                                 {
                                     case "insert":
-                                        await _user.Insert(valueObj);
+                                        await _user.Insert(userObj);
                                         break;
 
                                     case "update":
-                                        await _user.Update(valueObj);
+                                        await _user.Update(userObj);
                                         break;
 
                                     case "delete":
-                                        await _user.Delete(valueObj);
+                                        await _user.Delete(userObj);
                                         break;
                                 }
                                 break;
+
+                            case "userrole":
+                                var userRoleObj = JsonSerializer.Deserialize<UserRole>(value);
+                                switch (operation)
+                                {
+                                    case "insert":
+                                        await _userRole.Insert(userRoleObj);
+                                        break;
+
+                                    case "delete":
+                                        await _userRole.Delete(userRoleObj);
+                                        break;
+                                }
+                                break;
+
+
                         }
                     }
                 }

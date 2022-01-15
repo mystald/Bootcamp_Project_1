@@ -20,7 +20,6 @@ namespace NETApp.Kafka
                 BootstrapServers = "localhost:9092",
                 GroupId = "twittor",
                 AutoOffsetReset = AutoOffsetReset.Earliest,
-                ClientId = Dns.GetHostName(),
             };
 
             consumer = new ConsumerBuilder<string, string>(config).Build();
