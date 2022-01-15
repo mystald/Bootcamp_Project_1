@@ -14,4 +14,8 @@ Enrollment is the main service, where the CRUDs of Student, Course, and Enrollme
 
 ## Case 2 - Twittor w/ GraphQL
 
-Case-2 (Twittor) have not been pushed to this repo yet
+Case-2 (Twittor) is a basic implementation of Microservices with Kafka as its asynchronous communication method between services
+There are three main app, the GraphqlAPI which will utilize GraphQL as the main endpoint, NETApp which will act as a service that saves data directly to DB, and LoggingApp for logging events recorded in Kafka
+
+The Kafka itself is deployed to kubernetes with [Chart](https://github.com/bitnami/charts/tree/master/bitnami/kafka)<br>
+The Chart is installed using [Helm](https://helm.sh/) , which itself is installed using [Chocolatey](https://chocolatey.org/)
