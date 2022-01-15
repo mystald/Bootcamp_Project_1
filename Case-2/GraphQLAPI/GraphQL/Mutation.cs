@@ -8,6 +8,7 @@ using GraphQLAPI.Dtos;
 using GraphQLAPI.Exceptions;
 using GraphQLAPI.Models;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace GraphQLAPI.GraphQL
 {
@@ -38,6 +39,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "ADMIN", "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoUserGet>> EditProfile([Service] IUser _user, int id, DtoUserEditProfile input)
         {
             // TODO Get UserId from JWT Claim
@@ -48,6 +50,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "ADMIN", "MEMBER" })]
         public async Task<DtoReturnDataSuccess> ChangePassword([Service] IUser _user, int id, DtoUserChangePass input)
         {
             // TODO Get UserId from JWT Claim
@@ -70,6 +73,7 @@ namespace GraphQLAPI.GraphQL
             return new DtoReturnDataSuccess();
         }
 
+        [Authorize(Roles = new string[] { "ADMIN" })]
         public async Task<DtoReturnDataSuccess<DtoUserGet>> LockUser([Service] IUser _user, int id, bool isLock)
         {
             var result = await _user.Update(
@@ -83,6 +87,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "ADMIN" })]
         public async Task<DtoReturnDataSuccess<DtoUserGet>> DeleteUser([Service] IUser _user, int id)
         {
             var result = await _user.Delete(id);
@@ -93,6 +98,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "ADMIN" })]
 
         public async Task<DtoReturnDataSuccess<UserRole>> AssignUserRole([Service] IUserRole _userRole, int userId, int roleId)
         {
@@ -110,6 +116,8 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "ADMIN" })]
+
         public async Task<DtoReturnDataSuccess<UserRole>> UnassignUserRole([Service] IUserRole _userRole, int userId, int roleId)
         {
             var result = await _userRole.Delete(userId, roleId);
@@ -120,6 +128,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoTwittorGet>> PostTwittor([Service] ITwittor _twittor, DtoTwitterInput input)
         {
             var result = await _twittor.Insert(_mapper.Map<Twittor>(input));
@@ -130,6 +139,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoTwittorGet>> UpdateTwittor([Service] ITwittor _twittor, int id, string content)
         {
             var result = await _twittor.Update(
@@ -143,6 +153,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoTwittorGet>> DeleteTwittor([Service] ITwittor _twittor, int id)
         {
             var result = await _twittor.Delete(id);
@@ -153,6 +164,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoCommentGet>> PostComment([Service] IComment _comment, DtoCommentInput input)
         {
             var result = await _comment.Insert(_mapper.Map<Comment>(input));
@@ -163,6 +175,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoCommentGet>> UpdateComment([Service] IComment _comment, int id, string content)
         {
             var result = await _comment.Update(
@@ -176,6 +189,7 @@ namespace GraphQLAPI.GraphQL
             };
         }
 
+        [Authorize(Roles = new string[] { "MEMBER" })]
         public async Task<DtoReturnDataSuccess<DtoCommentGet>> DeleteComment([Service] IComment _comment, int id)
         {
             var result = await _comment.Delete(id);
