@@ -66,6 +66,8 @@ namespace GraphQLAPI
 
             services.AddScoped<ITwittor, DALTwittor>();
 
+            services.AddScoped<IComment, DALComment>();
+
             services.AddSingleton<Producer>();
 
             services.AddErrorFilter<GraphQLErrorFilter>();

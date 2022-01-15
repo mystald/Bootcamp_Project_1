@@ -19,6 +19,7 @@ namespace GraphQLAPI.GraphQL
         {
             _mapper = mapper;
         }
+
         public async Task<DtoReturnDataSuccess<DtoUserGet>> Registration([Service] IUser _user, DtoUserInput input)
         {
             var newUser = await _user.Insert(_mapper.Map<User>(input));
@@ -141,6 +142,39 @@ namespace GraphQLAPI.GraphQL
             return new DtoReturnDataSuccess<DtoTwittorGet>
             {
                 data = _mapper.Map<DtoTwittorGet>(result)
+            };
+        }
+
+        public async Task<DtoReturnDataSuccess<DtoCommentGet>> PostComment([Service] IComment _comment, DtoCommentInput input)
+        {
+            var result = await _comment.Insert(_mapper.Map<Comment>(input));
+
+            return new DtoReturnDataSuccess<DtoCommentGet>
+            {
+                data = _mapper.Map<DtoCommentGet>(result)
+            };
+        }
+
+        public async Task<DtoReturnDataSuccess<DtoCommentGet>> UpdateComment([Service] IComment _comment, int id, string content)
+        {
+            var result = await _comment.Update(
+                id,
+                new Comment { Content = content }
+            );
+
+            return new DtoReturnDataSuccess<DtoCommentGet>
+            {
+                data = _mapper.Map<DtoCommentGet>(result)
+            };
+        }
+
+        public async Task<DtoReturnDataSuccess<DtoCommentGet>> DeleteComment([Service] IComment _comment, int id)
+        {
+            var result = await _comment.Delete(id);
+
+            return new DtoReturnDataSuccess<DtoCommentGet>
+            {
+                data = _mapper.Map<DtoCommentGet>(result)
             };
         }
     }

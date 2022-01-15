@@ -13,4 +13,11 @@ namespace GraphQLAPI.Dtos
         public string Content { get; set; }
         public DateTime PostDate { get; set; }
     }
+
+    public class DtoCommentInput
+    {
+        public int UserId { get; set; }
+        public int TwittorId { get; set; }
+        public string Content { get; set; }
+    }
 }

@@ -20,15 +20,16 @@ namespace GraphQLAPI.Data
             _db = db;
             _kafka = kafka;
         }
+
         public async Task<Twittor> Delete(int id)
         {
             try
             {
-                var oldUser = await GetById(id);
+                var oldTwittor = await GetById(id);
 
-                _kafka.SendMessage("twittor", "delete", JsonSerializer.Serialize(oldUser));
+                _kafka.SendMessage("twittor", "delete", JsonSerializer.Serialize(oldTwittor));
 
-                return oldUser;
+                return oldTwittor;
             }
             catch (System.Exception)
             {

@@ -13,6 +13,8 @@ namespace GraphQLAPI.Profiles
         public ProfileComment()
         {
             CreateMap<Comment, DtoCommentGet>();
+            CreateMap<DtoCommentInput, Comment>()
+                .ForMember(c => c.PostDate, opt => opt.MapFrom(input => DateTime.Now));
         }
     }
 }
