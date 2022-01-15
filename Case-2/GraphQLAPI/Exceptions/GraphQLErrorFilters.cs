@@ -10,6 +10,8 @@ namespace GraphQLAPI.Exceptions
     {
         public IError OnError(IError error)
         {
+            if (error.Exception == null) return error.WithMessage(error.Message);
+
             return error.WithMessage(error.Exception.Message);
         }
     }

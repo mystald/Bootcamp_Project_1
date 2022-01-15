@@ -8,9 +8,11 @@ using GraphQLAPI.Data;
 using GraphQLAPI.Dtos;
 using GraphQLAPI.Models;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace GraphQLAPI.GraphQL
 {
+    [Authorize]
     public class Query
     {
         private IMapper _mapper;
@@ -19,6 +21,7 @@ namespace GraphQLAPI.GraphQL
         {
             _mapper = mapper;
         }
+
         public IQueryable<DtoUserGet> GetAllUser([Service] IUser _user)
         {
             var results = _user.GetAll();
@@ -31,6 +34,7 @@ namespace GraphQLAPI.GraphQL
             return _mapper.Map<DtoUserGet>(result);
         }
 
+        [Authorize(Roles = new string[] { "ADMIN" })]
         public async Task<IQueryable<DtoRoleGet>> GetRoleByUserId([Service] IUser _user, int id)
         {
             var result = await _user.GetRoles(id);

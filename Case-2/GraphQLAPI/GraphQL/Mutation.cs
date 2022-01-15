@@ -20,6 +20,14 @@ namespace GraphQLAPI.GraphQL
             _mapper = mapper;
         }
 
+        public async Task<DtoReturnDataSuccess<string>> Authentication([Service] IUser _user, DtoUserAuth input)
+        {
+            return new DtoReturnDataSuccess<string>
+            {
+                data = await _user.Authentication(input.Username, input.Password)
+            };
+        }
+
         public async Task<DtoReturnDataSuccess<DtoUserGet>> Registration([Service] IUser _user, DtoUserInput input)
         {
             var newUser = await _user.Insert(_mapper.Map<User>(input));
