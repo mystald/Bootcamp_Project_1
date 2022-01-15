@@ -26,6 +26,8 @@ namespace NETApp
 
             var _user = new DALUser(_appDbContext);
             var _userRole = new DALUserRole(_appDbContext);
+            var _twittor = new DALTwittor(_appDbContext);
+            //var _comment = new DALComment(_appDbContext);
 
             var consumerObj = new Consumer();
 
@@ -33,7 +35,7 @@ namespace NETApp
             {
                 Console.WriteLine("Connected");
 
-                var topics = new string[] { "user", "userrole" };
+                var topics = new string[] { "user", "userrole", "twittor" };
 
                 consumer.Subscribe(topics);
 
@@ -83,7 +85,43 @@ namespace NETApp
                                 }
                                 break;
 
+                            case "twittor":
+                                var twittorObj = JsonSerializer.Deserialize<Twittor>(value);
+                                switch (operation)
+                                {
+                                    case "insert":
+                                        await _twittor.Insert(twittorObj);
+                                        break;
 
+                                    case "update":
+                                        await _twittor.Update(twittorObj);
+                                        break;
+
+                                    case "delete":
+                                        await _twittor.Delete(twittorObj);
+                                        break;
+                                }
+
+                                break;
+
+                                /*case "comment":
+                                    var commentObj = JsonSerializer.Deserialize<Comment>(value);
+                                    switch (operation)
+                                    {
+                                        case "insert":
+                                            await _comment.Insert(commentObj);
+                                            break;
+
+                                        case "update":
+                                            await _comment.Update(commentObj);
+                                            break;
+
+                                        case "delete":
+                                            await _comment.Delete(commentObj);
+                                            break;
+                                    }
+
+                                    break;*/
                         }
                     }
                 }

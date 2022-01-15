@@ -110,5 +110,38 @@ namespace GraphQLAPI.GraphQL
                 data = result
             };
         }
+
+        public async Task<DtoReturnDataSuccess<DtoTwittorGet>> PostTwittor([Service] ITwittor _twittor, DtoTwitterInput input)
+        {
+            var result = await _twittor.Insert(_mapper.Map<Twittor>(input));
+
+            return new DtoReturnDataSuccess<DtoTwittorGet>
+            {
+                data = _mapper.Map<DtoTwittorGet>(result)
+            };
+        }
+
+        public async Task<DtoReturnDataSuccess<DtoTwittorGet>> UpdateTwittor([Service] ITwittor _twittor, int id, string content)
+        {
+            var result = await _twittor.Update(
+                id,
+                new Twittor { Content = content }
+            );
+
+            return new DtoReturnDataSuccess<DtoTwittorGet>
+            {
+                data = _mapper.Map<DtoTwittorGet>(result)
+            };
+        }
+
+        public async Task<DtoReturnDataSuccess<DtoTwittorGet>> DeleteTwittor([Service] ITwittor _twittor, int id)
+        {
+            var result = await _twittor.Delete(id);
+
+            return new DtoReturnDataSuccess<DtoTwittorGet>
+            {
+                data = _mapper.Map<DtoTwittorGet>(result)
+            };
+        }
     }
 }

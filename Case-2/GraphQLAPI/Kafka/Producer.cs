@@ -52,13 +52,13 @@ namespace GraphQLAPI.Kafka
             return succeed;
         }
 
-        public async Task CreateTopics(string topic)
+        public void CreateTopics(string topic)
         {
             using (var _adminClient = new AdminClientBuilder(_config).Build())
             {
                 try
                 {
-                    await _adminClient.CreateTopicsAsync(
+                    _adminClient.CreateTopicsAsync(
                         new List<TopicSpecification>
                         {
                             new TopicSpecification

@@ -5,18 +5,12 @@ using System.Threading.Tasks;
 
 namespace GraphQLAPI.Dtos
 {
-    public class DtoTwittorGet
+    public class DtoCommentGet
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int TwittorId { get; set; }
         public string Content { get; set; }
         public DateTime PostDate { get; set; }
-        public int CommentCount { get; set; }
-    }
-
-    public class DtoTwitterInput
-    {
-        public int UserId { get; set; }
-        public string Content { get; set; }
     }
 }

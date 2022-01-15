@@ -64,6 +64,8 @@ namespace GraphQLAPI
 
             services.AddScoped<IUserRole, DALUserRole>();
 
+            services.AddScoped<ITwittor, DALTwittor>();
+
             services.AddSingleton<Producer>();
 
             services.AddErrorFilter<GraphQLErrorFilter>();
@@ -98,6 +100,8 @@ namespace GraphQLAPI
             var producer = new Producer();
             producer.CreateTopics("user");
             producer.CreateTopics("userrole");
+            producer.CreateTopics("twittor");
+            producer.CreateTopics("comment");
         }
     }
 }

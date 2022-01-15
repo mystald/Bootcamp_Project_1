@@ -23,7 +23,7 @@ namespace NETApp.Data
 
             await _db.SaveChangesAsync();
 
-            Console.WriteLine("Data saved to db");
+            Console.WriteLine("Data deleted from db");
         }
 
         public async Task Insert(UserRole obj)

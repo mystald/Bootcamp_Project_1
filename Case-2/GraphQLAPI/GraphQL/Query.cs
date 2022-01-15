@@ -42,5 +42,17 @@ namespace GraphQLAPI.GraphQL
             var result = _user.GetTwittors(id);
             return result;
         }
+
+        public IQueryable<DtoTwittorGet> GetAllTwittors([Service] ITwittor _twittor)
+        {
+            var result = _twittor.GetAll();
+            return _mapper.ProjectTo<DtoTwittorGet>(result);
+        }
+
+        public async Task<IQueryable<DtoCommentGet>> GetCommentByTwittorId([Service] ITwittor _twittor, int id)
+        {
+            var result = await _twittor.GetCommentsByTwittorId(id);
+            return _mapper.ProjectTo<DtoCommentGet>(result);
+        }
     }
 }
