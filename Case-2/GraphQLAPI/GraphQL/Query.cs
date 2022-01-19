@@ -97,5 +97,15 @@ namespace GraphQLAPI.GraphQL
                 await _comment.GetById(id)
             );
         }
+
+        [Authorize(Roles = new string[] { "ADMIN" })]
+        public IQueryable<DtoRoleGet> GetAllRoles([Service] IRole _role)
+        {
+            _kafka.SendMessage("loggings", "role-get", "GetAllRoles");
+
+            return _mapper.ProjectTo<DtoRoleGet>(
+                _role.GetAll()
+            );
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace EnrollmentServices.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
-            if (!context.Database.CanConnect()) throw new Exception("Database not migrated yet");
+            //if (!context.Database.CanConnect()) throw new Exception("Database not migrated yet");
 
             if (!context.Courses.Any())
             {

@@ -33,11 +33,11 @@ namespace NETApp
 
             using (var consumer = consumerObj.consumer)
             {
-                Console.WriteLine("Connected");
-
                 var topics = new string[] { "user", "userrole", "twittor", "comment" };
 
                 consumer.Subscribe(topics);
+
+                Console.WriteLine("Connected");
 
                 try
                 {

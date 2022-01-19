@@ -71,6 +71,8 @@ namespace GraphQLAPI
 
             services.AddScoped<IComment, DALComment>();
 
+            services.AddScoped<IRole, DALRole>();
+
             services.AddSingleton<Producer>();
 
             services.AddErrorFilter<GraphQLErrorFilter>();
